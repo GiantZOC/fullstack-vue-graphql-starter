@@ -2,6 +2,9 @@ const {ApolloServer, gql} = require('apollo-server');
 const mongoose = require('mongoose');
 
 require('dotenv').config();
+const User = require('./models/User');
+const Post = require('./models/Post');
+
 console.log(process.env.MONGO_URI)
 mongoose
 .connect(process.env.MONGO_URI, {useNewUrlParser: true})
@@ -22,7 +25,11 @@ const typeDefs = gql`
 
 
 const server = new ApolloServer({
-    typeDefs: typeDefs
+    typeDefs: typeDefs,
+    context: {
+        User,
+        Post
+    }
 });
 
 //initialize server
