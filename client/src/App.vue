@@ -1,10 +1,32 @@
 <template>
-  <v-app>
+  <v-app style="background: #E3E3EE">
      <v-app-bar app>
+      <v-navigation-drawer app temporary fixed v-model="sideNav">
+        <v-toolbar color="accent" dark flat>
+          <v-app-bar-nav-icon @click="toggleSideNav"></v-app-bar-nav-icon>
+          <router-link to="/" tag="span" style="cursor: pointer">
+           <h1 class="title pl-3">VueShare</h1>
+          </router-link>
+        </v-toolbar>
 
+        <v-divider></v-divider>
 
+        <v-list>
+          <v-list-item v-for="item in sideNavItems" :key="item.title" :to="item.link">
+            <v-list-item-icon>
+              <v-icon>{{item.icon}}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              {{item.title}}
+            </v-list-item-content>
+          </v-list-item>
+        </v-list>
+      </v-navigation-drawer>
+      
+      <!-- Horizontal navbar -->
       <v-toolbar fixed color="primary" dark>
-      <v-toolbar-side-icon></v-toolbar-side-icon>
+      <v-app-bar-nav-icon @click="toggleSideNav"></v-app-bar-nav-icon>
+
       <v-toolbar-title class="hidden-xs-only">
         <router-link to="/" tag="span" style="cursor: pointer">
         VueShare
@@ -29,6 +51,7 @@
       </v-toolbar-items>
 
       </v-toolbar>
+
       <!-- <v-toolbar-title class="headline text-uppercase">
         <span>Vuetify</span>
         <span class="font-weight-light">MATERIAL DESIGN</span>
@@ -61,10 +84,24 @@ export default {
         {icon: 'mdi-login', title: 'Sign In', link: '/signin'},
         {icon: 'mdi-account', title: 'Sign Up', link: '/signup'}
       ]
+    },
+    sideNavItems(){ 
+      return[
+        { icon: 'mdi-chat', title: 'Posts', link: '/posts'},
+        {icon: 'mdi-login', title: 'Sign In', link: '/signin'},
+        {icon: 'mdi-account', title: 'Sign Up', link: '/signup'}
+      ]
     }
   },
-  data: () => ({
-    //
-  }),
+  data() {
+    return {
+      sideNav: false
+    }
+  },
+  methods: {
+    toggleSideNav(){
+      this.sideNav = !this.sideNav;
+    }
+  }
 };
 </script>
