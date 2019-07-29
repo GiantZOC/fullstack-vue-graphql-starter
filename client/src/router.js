@@ -8,6 +8,8 @@ import Profile from './components/Auth/Profile.vue'
 import Signin from './components/Auth/Signin.vue'
 import Signup from './components/Auth/Signup.vue'
 
+import ApolloQuery from './components/Posts/ApolloQuery.vue'
+
 Vue.use(Router)
 
 export default new Router({
@@ -43,6 +45,12 @@ export default new Router({
       path: '/signup',
       name: 'Sign Up',
       component: Signup
+    },
+    {
+      path: '/ApolloQuery',
+      name: 'Apollo Query',
+      component: ApolloQuery
     }
+
   ]
 })
