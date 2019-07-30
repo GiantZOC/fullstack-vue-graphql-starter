@@ -7,6 +7,7 @@ const path = require('path');
 const filePath = path.join(__dirname, 'typeDefs.gql');
 const typeDefs = fs.readFileSync(filePath, 'utf-8');
 const resolvers = require("./resolvers");
+const jwt = require("jsonwebtoken");
 
 // import environment variable and models
 require('dotenv').config();
@@ -21,13 +22,25 @@ mongoose
 .then(() => console.log('DB connected'))
 .catch(err => console.error(err));
 
+//Verify JWT Token
+const getUser = async token =>{
+    if(token){
+        try {
+            let user = await jwt.verify(token, process.env.SECRET);
+            console.log(user);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+}
+
 // Create Apollo/GraphQl Server
 const server = new ApolloServer({
     typeDefs: typeDefs,
     resolvers,
-    context: {
-        User,
-        Post
+    context: ({req}) => {
+        const token = req.headers["authorization"];
+        return {User, Post, currentUser: getUser(token)}; 
     }
 });
 
