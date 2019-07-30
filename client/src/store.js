@@ -6,13 +6,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-
+    posts: []
   },
   mutations: {
-
+    setPosts: (state, payload) =>{
+      state.posts = payload;
+    }
   },
   actions: {
-    getPosts: () =>{
+    getPosts: ({commit}) =>{
       // use apolloclient to fire getPosts query
       apolloClient
         .query({
@@ -25,12 +27,18 @@ export default new Vuex.Store({
               }
             }
           `
-        }).then(data =>{
-          console.log(data);
+        }).then(({data}) =>{
+          // Get data from actions to state via mutations
+          // commit passes data from actions to mutation function
+          commit('setPosts', data.getPosts);
+          console.log(data.getPosts);
 
         }).catch(err => {
           console.error(err);
         })
     }
+  },
+  getters:{
+    posts: stats => state.posts
   }
 })
