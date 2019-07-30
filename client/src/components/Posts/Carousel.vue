@@ -15,13 +15,23 @@ import { gql } from "apollo-boost";
 
 export default {
   name: "home",
-  created(){
-    this.handleGetCarouselPosts();
+  data(){
+    return{
+      posts: []
+    }
   },
-  methods: {
-    handleGetCarouselPosts(){
-      //get posts from vuex store
-      this.$store.dispatch('getPosts');
+  apollo: {
+    getPosts: {
+      query: gql`
+        query {
+          getPosts {
+            _id
+            title
+            imageUrl
+            description
+          }
+        }
+      `
     }
   }
 };
