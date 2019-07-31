@@ -4,7 +4,7 @@
 
        <!-- vertical navbar drawer -->
       <v-navigation-drawer app temporary fixed v-model="sideNav">
-        <v-toolbar color="accent" dark flat>
+        <v-toolbar color="accent" dark text>
           <v-app-bar-nav-icon @click="toggleSideNav"></v-app-bar-nav-icon>
           <router-link to="/" tag="span" style="cursor: pointer">
            <h1 class="title pl-3">VueShare</h1>
@@ -65,13 +65,13 @@
       <v-spacer></v-spacer>
 
       <v-toolbar-items class="hidden-xs-only" color="primary">
-        <v-btn depressed class="v-btn--flat" v-for="item in horizontalNavItems" :key="item.title" :to="item.link">
+        <v-btn depressed text  v-for="item in horizontalNavItems" :key="item.title" :to="item.link">
           <v-icon class="hidden-sm-only" left>{{item.icon}}</v-icon>
           {{item.title}}
         </v-btn>
 
         <!-- Profile Button -->
-        <v-btn depressed class="v-btn--flat" to="/profile" v-if="user">
+        <v-btn depressed text to="/profile" v-if="user">
           <v-icon  class="hidden-sm-only" left>mdi-face</v-icon>
           <v-badge right color="blue darken-2">
             <!-- <span slot="badge">1</span> -->
@@ -80,7 +80,7 @@
         </v-btn>
 
         <!-- Signout Button -->
-        <v-btn depressed class="v-btn--flat" v-if="user"  @click="handleSignoutUser">
+        <v-btn depressed text v-if="user"  @click="handleSignoutUser">
           <v-icon class="hidden-sm-only" left>mdi-exit-to-app</v-icon>
           Signout
         </v-btn>
@@ -97,7 +97,13 @@
       <v-snackbar v-model="authSnackbar" color="success" :timeout="3000" bottom left>
         <v-icon class="mr-3">mdi-check</v-icon>
         <h3>You are now signed in! </h3>
-        <v-btn dark flat @click="authSnackbar = false">Close</v-btn>
+        <v-btn dark text @click="authSnackbar = false">Close</v-btn>
+      </v-snackbar>
+
+      <v-snackbar v-if="authError" v-model="authErrorSnackbar" color="warning" :timeout="3000" bottom left>
+        <v-icon class="mr-3">mdi-cancel</v-icon>
+        <h3>{{authError.message}}</h3>
+        <v-btn dark text to="/signin">Signin</v-btn>
       </v-snackbar>
     </v-content>
   </v-app>
@@ -114,14 +120,17 @@ export default {
       if(oldValue === null){
         this.authSnackbar = true;
       }
-      
-      //console.log(newValue);
-      //console.log(oldValue);
+    },
+    authError(value){
+      //if autherror show the snackbar
+      if(value !== null){
+        this.authErrorSnackbar = true;
+      } 
     }
   },
   computed:{
-    ...mapState(['user']),
-    ...mapGetters['user'],
+    ...mapState(['user', 'authError']),
+    ...mapGetters['user', 'authError'],
     horizontalNavItems(){
       let items = [
         { icon: 'mdi-chat', title: 'Posts', link: '/posts'},
@@ -157,7 +166,8 @@ export default {
   data() {
     return {
       sideNav: false,
-      authSnackbar: false
+      authSnackbar: false,
+      authErrorSnackbar: false
     }
   },
   methods: {
