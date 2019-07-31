@@ -1,6 +1,8 @@
 <template>
   <v-app style="background: #E3E3EE">
      <v-app-bar app>
+
+       <!-- vertical navbar drawer -->
       <v-navigation-drawer app temporary fixed v-model="sideNav">
         <v-toolbar color="accent" dark flat>
           <v-app-bar-nav-icon @click="toggleSideNav"></v-app-bar-nav-icon>
@@ -20,7 +22,30 @@
               {{item.title}}
             </v-list-item-content>
           </v-list-item>
+
+          
+
+          <!-- Profile -->
+          <v-list-item v-if="user" to="./profile">
+            <v-list-item-icon>
+              <v-icon>mdi-face</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              Profile
+            </v-list-item-content>
+          </v-list-item>
+
+          <!-- signout -->
+          <v-list-item v-if="user">
+            <v-list-item-icon>
+              <v-icon>mdi-exit-to-app</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              Signout
+            </v-list-item-content>
+          </v-list-item>
         </v-list>
+        
       </v-navigation-drawer>
       
       <!-- Horizontal navbar -->
@@ -44,27 +69,24 @@
           <v-icon class="hidden-sm-only" left>{{item.icon}}</v-icon>
           {{item.title}}
         </v-btn>
-        <!-- <v-btn flat>
-          Posts
+
+        <!-- Profile Button -->
+        <v-btn depressed class="v-btn--flat" to="/profile" v-if="user">
+          <v-icon  class="hidden-sm-only" left>mdi-face</v-icon>
+          <v-badge right color="blue darken-2">
+            <!-- <span slot="badge">1</span> -->
+            Profile
+          </v-badge>
         </v-btn>
-           -->
+
+        <!-- Signout Button -->
+        <v-btn depressed class="v-btn--flat" v-if="user">
+          <v-icon class="hidden-sm-only" left>mdi-exit-to-app</v-icon>
+          Signout
+        </v-btn>
       </v-toolbar-items>
 
       </v-toolbar>
-
-      <!-- <v-toolbar-title class="headline text-uppercase">
-        <span>Vuetify</span>
-        <span class="font-weight-light">MATERIAL DESIGN</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn
-        text
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn> -->
      </v-app-bar>
 
     <v-content>
@@ -76,23 +98,42 @@
 </template>
 
 <script>
-
+import {mapGetters, mapState} from 'vuex';
 export default {
   name: 'App',
   computed:{
+    ...mapState(['user']),
+    ...mapGetters['user'],
     horizontalNavItems(){
-      return[
+      let items = [
         { icon: 'mdi-chat', title: 'Posts', link: '/posts'},
         {icon: 'mdi-login', title: 'Sign In', link: '/signin'},
         {icon: 'mdi-account', title: 'Sign Up', link: '/signup'}
-      ]
+      ];
+      //user not null
+      if(this.user){
+        items = [
+          { icon: 'mdi-chat', title: 'Posts', link: '/posts'},
+        ];
+      }
+      return items;
     },
     sideNavItems(){ 
-      return[
+      let items = [
         { icon: 'mdi-chat', title: 'Posts', link: '/posts'},
         {icon: 'mdi-login', title: 'Sign In', link: '/signin'},
         {icon: 'mdi-account', title: 'Sign Up', link: '/signup'}
-      ]
+      ];
+      //user not null
+      if(this.user){
+        items = [
+          { icon: 'mdi-chat', title: 'Posts', link: '/posts'},
+          { icon: 'mdi-star', title: 'Create Post', link: '/post/add'},
+          // { icon: 'mdi-account', title: 'Profile', link: '/profile'},
+          // { icon: 'mdi-exit-to-app', title: 'Signout', link: '/signout'},
+        ];
+      }
+      return items;
     }
   },
   data() {

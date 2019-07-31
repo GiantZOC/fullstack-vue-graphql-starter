@@ -65,7 +65,7 @@ export default new Vuex.Store({
         })
         .then(({data}) => {
           localStorage.setItem("token", data.signinUser.token);
-          console.log(data.signinUser);
+          //console.log(data.signinUser);
           // refresh the page to get teh current user
           router.go();
         })
