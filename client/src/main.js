@@ -9,7 +9,6 @@ import ApolloClient from 'apollo-boost'
 import VueApollo from 'vue-apollo'
 
 import FormAlert from './components/Shared/FormAlert';
-import { GET_CURRENT_USER } from './queries';
 
 //register global component
 
@@ -46,7 +45,6 @@ export const defaultClient = new ApolloClient({
         if(err.name === "AuthenticationError"){
           //set auth error in state
           store.commit('setAuthError', err);
-
           store.dispatch('signoutUser');
         }
         console.dir(err);
