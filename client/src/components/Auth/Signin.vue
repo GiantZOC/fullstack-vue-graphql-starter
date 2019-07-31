@@ -6,6 +6,14 @@
                 <h1>Sign In</h1>
             </v-flex>
         </v-layout>
+
+        <!-- Error Alert -->
+        <v-layout v-if="error" row wrap>
+            <v-flex xs12 sm6 offset-sm3>
+                <form-alert :message="error.message"></form-alert>
+            </v-flex>
+        </v-layout>
+        <!-- Error Form -->
         <v-layout row wrap>
             
             <v-flex xs12 sm6 offset-sm3>
@@ -55,7 +63,7 @@ export default {
 
     },
     computed: {
-        ...mapGetters(['user'])
+        ...mapGetters(['user', 'error'])
     },
     watch: {
         user(value){
