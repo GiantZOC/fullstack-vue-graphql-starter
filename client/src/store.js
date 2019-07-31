@@ -69,6 +69,7 @@ export default new Vuex.Store({
     },
     signinUser: ({commit}, payload) => {
       commit('clearError');
+      commit('setLoading', true);
       //clear token to prevent errors
       localStorage.setItem('token', "");
       apolloClient
@@ -77,12 +78,14 @@ export default new Vuex.Store({
           variables: payload
         })
         .then(({data}) => {
+          commit('setLoading', false);
           localStorage.setItem("token", data.signinUser.token);
           //console.log(data.signinUser);
           // refresh the page to get teh current user
           router.go();
         })
         .catch(err => {
+          commit('setLoading', false);
           commit('setError', err);
           console.error(err);
         })
