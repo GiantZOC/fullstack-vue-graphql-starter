@@ -93,14 +93,32 @@
       <transition name="fade">
         <router-view/>
       </transition>
+
+      <v-snackbar v-model="authSnackbar" color="success" :timeout="3000" bottom left>
+        <v-icon class="mr-3">mdi-check</v-icon>
+        <h3>You are now signed in! </h3>
+        <v-btn dark flat @click="authSnackbar = false">Close</v-btn>
+      </v-snackbar>
     </v-content>
   </v-app>
 </template>
 
 <script>
 import {mapGetters, mapState} from 'vuex';
+
 export default {
   name: 'App',
+  watch: {
+    user(newValue, oldValue){
+      //if we had no value for user before, show snackbar
+      if(oldValue === null){
+        this.authSnackbar = true;
+      }
+      
+      //console.log(newValue);
+      //console.log(oldValue);
+    }
+  },
   computed:{
     ...mapState(['user']),
     ...mapGetters['user'],
@@ -138,7 +156,8 @@ export default {
   },
   data() {
     return {
-      sideNav: false
+      sideNav: false,
+      authSnackbar: false
     }
   },
   methods: {
