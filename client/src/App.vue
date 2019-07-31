@@ -36,7 +36,7 @@
           </v-list-item>
 
           <!-- signout -->
-          <v-list-item v-if="user">
+          <v-list-item v-if="user" @click="handleSignoutUser">
             <v-list-item-icon>
               <v-icon>mdi-exit-to-app</v-icon>
             </v-list-item-icon>
@@ -80,7 +80,7 @@
         </v-btn>
 
         <!-- Signout Button -->
-        <v-btn depressed class="v-btn--flat" v-if="user">
+        <v-btn depressed class="v-btn--flat" v-if="user"  @click="handleSignoutUser">
           <v-icon class="hidden-sm-only" left>mdi-exit-to-app</v-icon>
           Signout
         </v-btn>
@@ -142,9 +142,13 @@ export default {
     }
   },
   methods: {
+    handleSignoutUser(){
+      this.$store.dispatch('signoutUser');
+    },
     toggleSideNav(){
       this.sideNav = !this.sideNav;
-    }
+    },
+    
   }
 };
 </script>
