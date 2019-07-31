@@ -26,10 +26,11 @@ mongoose
 const getUser = async token =>{
     if(token){
         try {
-            let user = await jwt.verify(token, process.env.SECRET);
-            console.log(user);
+            return await jwt.verify(token, process.env.SECRET);
+            //console.log(user);
         } catch (error) {
-            console.error(error);
+            throw new AuthenticationError('Your session has ended.  Please sign in again.');
+            //console.error(error);
         }
     }
 }

@@ -7,6 +7,7 @@ import '@babel/polyfill'
 
 import ApolloClient from 'apollo-boost'
 import VueApollo from 'vue-apollo'
+import { GET_CURRENT_USER } from './queries';
 
 Vue.use(VueApollo);
 
@@ -53,5 +54,9 @@ new Vue({
   router,
   store,
   vuetify,
-  render: h => h(App)
+  render: h => h(App),
+  created(){
+    // execute getCurrentUser query
+    this.$store.dispatch('getCurrentUser');
+  }
 }).$mount('#app')
