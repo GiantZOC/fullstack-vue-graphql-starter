@@ -90,3 +90,28 @@ mutation($username: String!, $email:String!, $password:String!){
   }
 }
 `
+
+export const INFINITE_SCROLL_POSTS = gql`
+query($pageSize: Int!, $pageNum: Int!){
+  infiniteScrollPosts(pageNum: $pageNum, pageSize: $pageSize){
+    hasMore
+    posts {
+      _id
+      title
+      imageUrl
+      categories
+      description
+      likes
+      createdDate
+      messages{
+        _id
+      }
+      createdBy{
+        _id
+        username
+        avatar
+      }
+    }
+  }
+}
+`

@@ -110,7 +110,7 @@ export default {
                     imageUrl: this.imageUrl,
                     categories: this.categories,
                     description: this.description,
-                    creatorId: this.user._id //todo should be server side
+                    creatorId: this.user._id //todo: should be server side
                 });
             }
         }
