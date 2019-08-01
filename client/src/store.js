@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import {defaultClient as apolloClient} from './main.js';
 import router from './router.js';
-import  {GET_POSTS, SIGNIN_USER, GET_CURRENT_USER, SIGNUP_USER} from "./queries.js"; 
+import  {GET_POSTS, SIGNIN_USER, GET_CURRENT_USER, SIGNUP_USER, ADD_POST} from "./queries.js"; 
 
 Vue.use(Vuex)
 
@@ -50,6 +50,22 @@ export default new Vuex.Store({
       })
       .catch(err => {
         commit('setLoading', false);
+        console.error(err);
+      })
+    },
+    addPost: ({commit}, payload) => {
+      apolloClient
+      .mutate({
+        mutation: ADD_POST,
+        variables: payload
+      })
+      .then(({data}) => {
+        // commit('setLoading', false);
+        // commit('setUser', data.getCurrentUser);
+        console.log(data.addPost);
+      })
+      .catch(err => {
+        // commit('setLoading', false);
         console.error(err);
       })
     },
