@@ -28,7 +28,7 @@ export default new Router({
       component: Posts
     },
     {
-      path: '/posts:postId',
+      path: '/posts/:postId',
       name: 'Post',
       component: Post,
       props: true
