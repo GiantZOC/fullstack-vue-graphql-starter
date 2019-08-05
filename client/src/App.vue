@@ -23,15 +23,13 @@
             </v-list-item-content>
           </v-list-item>
 
-          
-
           <!-- Profile -->
           <v-list-item v-if="user" to="./profile">
             <v-list-item-icon>
               <v-icon>mdi-face</v-icon>
             </v-list-item-icon>
             <v-list-item-content>
-              Profile
+              Profile       
             </v-list-item-content>
           </v-list-item>
 
@@ -73,8 +71,10 @@
         <!-- Profile Button -->
         <v-btn depressed text to="/profile" v-if="user">
           <v-icon  class="hidden-sm-only" left>mdi-face</v-icon>
-          <v-badge right color="blue darken-2">
-            <!-- <span slot="badge">1</span> -->
+          <v-badge right color="blue darken-2" :class="{ 'bounce': badgeAnimated}">
+            <template v-slot:badge>
+              <span slot="badge" v-if="userFavorites.length"> {{userFavorites.length}}</span>
+            </template>
             Profile
           </v-badge>
         </v-btn>
@@ -114,6 +114,14 @@ import {mapGetters, mapState} from 'vuex';
 
 export default {
   name: 'App',
+  data() {
+    return {
+      sideNav: false,
+      authSnackbar: false,
+      authErrorSnackbar: false,
+      badgeAnimated: false
+    }
+  },
   watch: {
     user(newValue, oldValue){
       //if we had no value for user before, show snackbar
@@ -126,11 +134,18 @@ export default {
       if(value !== null){
         this.authErrorSnackbar = true;
       } 
+    },
+    userFavorites(value){
+      //if user favorites value changes
+      if(value){
+        this.badgeAnimated = true;
+        setTimeout(()=> (this.badgeAnimated = false), 1000);
+      }
     }
   },
   computed:{
-    ...mapState(['user', 'authError']),
-    ...mapGetters['user', 'authError'],
+    //...mapState(['user', 'authError', 'userFavorites']),
+    ...mapGetters(['user', 'authError', 'userFavorites']),
     horizontalNavItems(){
       let items = [
         { icon: 'mdi-chat', title: 'Posts', link: '/posts'},
@@ -163,13 +178,6 @@ export default {
       return items;
     }
   },
-  data() {
-    return {
-      sideNav: false,
-      authSnackbar: false,
-      authErrorSnackbar: false
-    }
-  },
   methods: {
     handleSignoutUser(){
       this.$store.dispatch('signoutUser');
@@ -196,5 +204,25 @@ export default {
 .fade-enter,
 .fade-leave-active{
   opacity: 0;
+}
+
+/* User favorite animation */
+.bounce{
+  animation: bounce 1s both;
+}
+
+@keyframes bounce{
+  0%, 20%, 53%, 80%, 100%{
+    transform: translate3d(0,0,0);
+  }
+  40%, 43%{
+    transform: translate3d(0, -20px, 0);
+  }
+  70%{
+    transform: translate3d(0, -10px, 0);
+  }
+  90%{
+    transform: translate3d(0, -4px, 0);
+  }
 }
 </style>

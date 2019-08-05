@@ -108,7 +108,7 @@ export default {
                 message => !!message || 'Message is required',
                 message => message.length < 50 || 'Message must be less than 50 charactes'
             ]
-        }
+        } 
     },
     apollo:{
         getPost:{
