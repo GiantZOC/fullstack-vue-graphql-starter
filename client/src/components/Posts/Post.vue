@@ -8,8 +8,8 @@
                         <h1>
                             {{getPost.title}}
                         </h1>
-                        <v-btn @click="handleLikePost" large icon v-if="user">
-                            <v-icon large color="grey">mdi-heart</v-icon>
+                        <v-btn @click="handleToggleLike" large icon v-if="user">
+                            <v-icon large :color="checkIfPostLiked(getPost._id) ? 'red' : 'grey'">mdi-heart</v-icon>
                         </v-btn>
                         <h3 class="ml-3 font-weight-thin">{{getPost.likes}} LIKES</h3>
                     
@@ -102,6 +102,7 @@ export default {
         return {
             dialog: false,
             messageBody: '',
+            postLiked: false,
             isFormValid: true,
             messageRules: [
                 message => !!message || 'Message is required',
@@ -121,9 +122,19 @@ export default {
     },
     computed:
     {
-        ...mapGetters(['user'])
+        ...mapGetters(['user', 'userFavorites'])
     },
     methods:{
+        checkIfPostLiked(postId){
+            //check if user favorites includes post with id of 'postId'
+            if(this.userFavorites && this.userFavorites.some(fave => fave._id === postId)){
+                this.postLiked = true;
+                return true;
+            } else{
+                this.postLiked = false;
+                return false;
+            }
+        },
         goToPreviousPage(){
             this.$router.go(-1);
         },
@@ -166,6 +177,13 @@ export default {
         },
         checkIfOwnMessage(message){
             return this.user && this.user._id === message.messageUser._id;
+        },
+        handleToggleLike(){
+            if(this.postLiked){
+                this.handleUnlikePost();
+            }else{
+                this.handleLikePost();
+            }
         },
         handleLikePost(){
             const variables ={

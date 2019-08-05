@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import {defaultClient as apolloClient} from './main.js';
 import router from './router.js';
 import  {GET_POSTS, SIGNIN_USER, GET_CURRENT_USER, SIGNUP_USER, ADD_POST} from "./queries.js"; 
+import { stat } from 'fs';
 
 Vue.use(Vuex)
 
@@ -173,6 +174,7 @@ export default new Vuex.Store({
     posts: state => state.posts,
     loading: state => state.loading,
     user: state => state.user,
+    userFavorites: state => state.user && state.user.favorites,
     error: state => state.error,
     authError: state => state.authError
   }
