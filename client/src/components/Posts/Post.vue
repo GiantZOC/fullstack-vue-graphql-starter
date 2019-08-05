@@ -47,10 +47,10 @@
         <div class="mt-3">
             <v-layout class="mb-3" v-if="user">
                 <v-flex class="xs12">
-                    <v-form @submit.prevent="handleAddPostMessage">
+                    <v-form v-model="isFormValid" lazy-validation ref="form" @submit.prevent="handleAddPostMessage">
                         <v-layout row>
                             <v-flex class="xs12">
-                                <v-text-field v-model="messageBody" clearable :append-outer-icon="messageBody && 'mdi-send'" label="Add Message" type="text" @click:append-outer="handleAddPostMessage" prepend-icon="mdi-email" required></v-text-field>
+                                <v-text-field :rules="messageRules" v-model="messageBody" clearable :append-outer-icon="messageBody && 'mdi-send'" label="Add Message" type="text" @click:append-outer="handleAddPostMessage" prepend-icon="mdi-email" required></v-text-field>
                             </v-flex>
                         </v-layout>
                     </v-form>
@@ -80,7 +80,7 @@
                             </v-list-item-content>
                             
                             <v-list-item-action class='hidden-xs-only'>
-                                <v-icon color="grey">mdi-chat</v-icon>
+                                <v-icon :color="checkIfOwnMessage(message) ? ' accent' : 'grey'">mdi-chat</v-icon>
                             </v-list-item-action>
                         </v-list-item>
                     </template>
@@ -100,7 +100,12 @@ export default {
     data(){
         return {
             dialog: false,
-            messageBody: ''
+            messageBody: '',
+            isFormValid: true,
+            messageRules: [
+                message => !!message || 'Message is required',
+                message => message.length < 50 || 'Message must be less than 50 charactes'
+            ]
         }
     },
     apollo:{
@@ -127,6 +132,8 @@ export default {
             }
         },
         handleAddPostMessage(){
+            if(this.$refs.form.validate()){
+
             //TODO handle userid and postid on backend
             const variables = {
                 messageBody: this.messageBody,
@@ -151,8 +158,13 @@ export default {
                     // console.log('add post message', addPostMessage);
                 }
             }).then(({data}) => {
+                this.$refs.form.reset();
                 console.log(data.addPostMessage);
             }).catch(err => console.error(err))
+            }
+        },
+        checkIfOwnMessage(message){
+            return this.user && this.user._id === message.messageUser._id;
         }
     }
 }

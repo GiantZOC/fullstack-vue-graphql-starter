@@ -19,10 +19,10 @@ import { gql } from "apollo-boost";
 
 export default {
   name: "home",
-  data(){
-    return{
+  data() {
+    return {
       posts: []
-    }
+    };
   },
   apollo: {
     getPosts: {
@@ -36,15 +36,16 @@ export default {
           }
         }
       `,
-      result(args){ //{data, loading, networkStatus}
+      result(args) {
+        //{data, loading, networkStatus}
         // if(!loading){
         //   this.posts = data.getPosts
         //   console.log('[networkStatus]', networkStatus)
         // }
         console.dir(args);
       },
-      error(err){
-        console.error('[ERROR!!]', err);
+      error(err) {
+        console.error("[ERROR!!]", err);
         console.dir(err);
       }
     }
