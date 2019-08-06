@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import {defaultClient as apolloClient} from './main.js';
 import router from './router.js';
-import  {GET_POSTS, SIGNIN_USER, GET_CURRENT_USER, SIGNUP_USER, ADD_POST} from "./queries.js"; 
+import  {GET_POSTS, SIGNIN_USER, GET_CURRENT_USER, SIGNUP_USER, ADD_POST, SEARCH_POSTS} from "./queries.js"; 
 import { stat } from 'fs';
 
 Vue.use(Vuex)
@@ -13,7 +13,8 @@ export default new Vuex.Store({
     user: null,
     loading: false,
     error: null,
-    authError: null
+    authError: null,
+    searchResults: []
   },
   mutations: {
     setPosts: (state, payload) =>{
@@ -36,6 +37,11 @@ export default new Vuex.Store({
     },
     setAuthError: (state, payload) =>{
       state.authError = payload;
+    },
+    setSearchResults: (state, payload) => {
+      if(payload != null){
+        state.searchResults = payload;
+      }
     }
   },
   actions: {
@@ -109,6 +115,15 @@ export default new Vuex.Store({
           console.error(err);
         }) 
     },
+    searchPosts: ({commit}, payload) => {
+      apolloClient.query({
+        query: SEARCH_POSTS,
+        variables: payload
+      }).then(({data}) => {
+        console.log(data);
+        commit('setSearchResults', data.searchPosts);
+      }).catch(err => {console.error(err)});
+    },
     signinUser: ({commit}, payload) => {
       commit('clearError');
       commit('setLoading', true);
@@ -176,6 +191,7 @@ export default new Vuex.Store({
     user: state => state.user,
     userFavorites: state => state.user && state.user.favorites,
     error: state => state.error,
-    authError: state => state.authError
+    authError: state => state.authError,
+    searchResults: state => state.searchResults
   }
 })

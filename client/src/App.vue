@@ -57,9 +57,20 @@
       </v-toolbar-title>
 
       <v-spacer></v-spacer>
+      <!-- Search -->
+      <v-text-field v-model="searchTerm" @input="handleSearchPosts" flex prepend-icon="mdi-magnify" placeholder="Search posts" color="accent" single-line-hide-details></v-text-field>
 
-      <v-text-field flex prepend-icon="mdi-magnify" placeholder="Search posts" color="accent" single-line-hide-details></v-text-field>
-
+      <!-- Search Results -->
+      <v-card dark v-if="searchResults.length" id="search__card">
+        <v-list>
+          <v-list-item v-for="result in searchResults" :key="result._id">
+            <v-list-content>
+              {{result.title}}
+              <span class="font-weight-thin">{{result.description}}</span> 
+            </v-list-content>
+          </v-list-item>
+        </v-list>
+      </v-card>
       <v-spacer></v-spacer>
 
       <v-toolbar-items class="hidden-xs-only" color="primary">
@@ -71,7 +82,7 @@
         <!-- Profile Button -->
         <v-btn depressed text to="/profile" v-if="user">
           <v-icon  class="hidden-sm-only" left>mdi-face</v-icon>
-          <v-badge right color="blue darken-2" :class="{ 'bounce': badgeAnimated}">
+          <v-badge right color="pink darken-2" :class="{ 'bounce': badgeAnimated}">
             <template v-slot:badge>
               <span slot="badge" v-if="userFavorites.length"> {{userFavorites.length}}</span>
             </template>
@@ -110,12 +121,13 @@
 </template>
 
 <script>
-import {mapGetters, mapState} from 'vuex';
+import {mapGetters} from 'vuex';
 
 export default {
   name: 'App',
   data() {
     return {
+      searchTerm: '',
       sideNav: false,
       authSnackbar: false,
       authErrorSnackbar: false,
@@ -145,7 +157,7 @@ export default {
   },
   computed:{
     //...mapState(['user', 'authError', 'userFavorites']),
-    ...mapGetters(['user', 'authError', 'userFavorites']),
+    ...mapGetters(['user', 'authError', 'userFavorites', 'searchResults']),
     horizontalNavItems(){
       let items = [
         { icon: 'mdi-chat', title: 'Posts', link: '/posts'},
@@ -185,6 +197,11 @@ export default {
     toggleSideNav(){
       this.sideNav = !this.sideNav;
     },
+    handleSearchPosts(){
+      this.$store.dispatch('searchPosts',{
+        searchTerm: this.searchTerm
+      })
+    }
     
   }
 };
@@ -224,5 +241,14 @@ export default {
   90%{
     transform: translate3d(0, -4px, 0);
   }
+}
+
+/* search results card */
+#search__card{
+  position: absolute;
+  width: 100vw;
+  z-index: 8;
+  top: 100%;
+  left: 0%;
 }
 </style>

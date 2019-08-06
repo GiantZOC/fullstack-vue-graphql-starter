@@ -21,3 +21,5 @@ mutation{
     joinDate
   }
 }
+
+Edit typeDefs, edit resolvers, edit queries, edit store, edit component
