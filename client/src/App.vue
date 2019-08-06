@@ -61,16 +61,23 @@
       <v-text-field v-model="searchTerm" @input="handleSearchPosts" flex prepend-icon="mdi-magnify" placeholder="Search posts" color="accent" single-line-hide-details></v-text-field>
 
       <!-- Search Results -->
-      <v-card dark v-if="searchResults.length" id="search__card">
+      <v-card dark v-if="searchResults" id="search__card">
         <v-list>
-          <v-list-item v-for="result in searchResults" :key="result._id">
-            <v-list-content>
+          <v-list-item @click="goToSearchResult(result._id)" v-for="result in searchResults" :key="result._id">
+            <!-- show icon if favorited by user -->
+            <v-list-item-icon v-if="checkIfUserFavorite(result._id)">
+              <v-icon>mdi-heart</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
               {{result.title}}
-              <span class="font-weight-thin">{{result.description}}</span> 
-            </v-list-content>
+              <span class="font-weight-thin">{{formatDescription(result.description)}}</span> 
+            </v-list-item-content>
+            
           </v-list-item>
         </v-list>
       </v-card>
+<!-- <v-icon large :color="checkIfPostLiked(getPost._id) ? 'red' : 'grey'">mdi-heart</v-icon> -->
+
       <v-spacer></v-spacer>
 
       <v-toolbar-items class="hidden-xs-only" color="primary">
@@ -201,6 +208,20 @@ export default {
       this.$store.dispatch('searchPosts',{
         searchTerm: this.searchTerm
       })
+    },
+    goToSearchResult(resultId){
+      // clear search term
+      this.searchTerm = '';
+      // go to desired result
+      this.$router.push(`/posts/${resultId}`);
+      // clear search results
+      this.$store.commit('clearSearchResults');
+    },
+    formatDescription(description){
+      return description.length > 20 ? `${description.slice(0,20)}...` : description;
+    },
+    checkIfUserFavorite(resultId){
+      return this.userFavorites && this.userFavorites.some(fave => fave._id === resultId);
     }
     
   }
