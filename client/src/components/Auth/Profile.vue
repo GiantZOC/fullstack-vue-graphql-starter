@@ -45,8 +45,9 @@
       <v-layout row wrap>
         <v-flex xs12 sm6 v-for="favorite in userFavorites" :key="favorite._id">
           <v-card class="mt03 ml-1 mr-2" hover>
-            <v-img height="30vh" :src="favorite.imageUrl"></v-img>
             <v-card-text>{{favorite.title}}</v-card-text>
+            <v-img height="30vh" :src="favorite.imageUrl"></v-img>
+            
           </v-card>
         </v-flex>
       </v-layout>
@@ -70,6 +71,7 @@
       <v-layout row wrap>
         <v-flex xs12 sm6 v-for="post in userPosts" :key="post._id">
           <v-card class="mt03 ml-1 mr-2" hover>
+            <v-card-text>{{post.title}}</v-card-text>
             <v-btn @click="loadPost(post)" color="info" floating fab small dark>
               <v-icon>mdi-pencil</v-icon>
             </v-btn>
@@ -77,7 +79,7 @@
               <v-icon>mdi-delete</v-icon>
             </v-btn>
             <v-img height="30vh" :src="post.imageUrl"></v-img>
-            <v-card-text>{{post.title}}</v-card-text>
+            
           </v-card>
         </v-flex>
       </v-layout>

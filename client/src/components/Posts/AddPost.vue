@@ -74,7 +74,7 @@
 <script>
 import { mapGetters} from 'vuex';
 export default {
-    name: 'Add Post',
+    name: 'AddPost',
     data(){
         return{
             isFormValid: true,

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import {defaultClient as apolloClient} from './main.js';
 import router from './router.js';
-import  {GET_POSTS, SIGNIN_USER, GET_CURRENT_USER, SIGNUP_USER, ADD_POST, SEARCH_POSTS, GET_USER_POSTS, UPDATE_USER_POST, DELETE_USER_POST} from "./queries.js"; 
+import  {GET_POSTS, SIGNIN_USER, GET_CURRENT_USER, SIGNUP_USER, ADD_POST, SEARCH_POSTS, GET_USER_POSTS, UPDATE_USER_POST, DELETE_USER_POST, INFINITE_SCROLL_POSTS} from "./queries.js"; 
 
 Vue.use(Vuex)
 
@@ -81,7 +81,7 @@ export default new Vuex.Store({
             query: GET_POSTS,
             data
           });
-          console.log(cache, data);
+          //console.log(cache, data);
         },
         //optimistic response ensured data is added immediately
         optimisticResponse:{
@@ -91,7 +91,18 @@ export default new Vuex.Store({
             _id: -1,
             ...payload
           }
-        }
+        },
+        //rerun specific queries after performing mutation to get fresh data
+        refetchQueries:[
+          {
+            query: INFINITE_SCROLL_POSTS,
+            variables:{
+              pageNum: 1,
+              pageSize: 2
+            }
+          }
+        ]
+
       })
       .then(({data}) => {
         // commit('setLoading', false);
