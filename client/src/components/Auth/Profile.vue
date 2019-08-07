@@ -10,12 +10,6 @@
                 <v-img :src="user.avatar"></v-img>
               </v-list-item-avatar>
               <v-list-item-content class="align-self-start">
-                <!-- <v-list-item-title
-                  class="headline mb-2"
-                  v-text="item.title"
-                ></v-list-item-title>
-
-                <v-list-item-subtitle v-text="item.artist"></v-list-item-subtitle>-->
                 <div class="headling">{{user.username}}</div>
                 <div>Joined {{formatJoinDate(user.joinDate)}}</div>
                 <div class="hidden-xs-only font-weight-regular">{{user.favorites.length}} Favorites</div>
@@ -46,7 +40,7 @@
         <v-flex xs12 sm6 v-for="favorite in userFavorites" :key="favorite._id">
           <v-card class="mt03 ml-1 mr-2" hover>
             <v-card-text>{{favorite.title}}</v-card-text>
-            <v-img height="30vh" :src="favorite.imageUrl"></v-img>
+            <v-img @click="goToPost(favorite._id)" height="30vh" :src="favorite.imageUrl"></v-img>
             
           </v-card>
         </v-flex>
@@ -78,7 +72,7 @@
             <v-btn @click="handleDeleteUserPost(post)" color="error" floating fab small dark>
               <v-icon>mdi-delete</v-icon>
             </v-btn>
-            <v-img height="30vh" :src="post.imageUrl"></v-img>
+            <v-img @click="goToPost(post._id)" height="30vh" :src="post.imageUrl"></v-img>
             
           </v-card>
         </v-flex>
@@ -178,6 +172,9 @@ export default {
     this.handleGetUserPosts();
   },
   methods:{
+    goToPost(id){
+      this.$router.push(`/posts/${id}`);
+    },
     formatJoinDate(date){
       return moment(new Date(date)).format('ll');
     },
