@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import {defaultClient as apolloClient} from './main.js';
 import router from './router.js';
-import  {GET_POSTS, SIGNIN_USER, GET_CURRENT_USER, SIGNUP_USER, ADD_POST, SEARCH_POSTS, GET_USER_POSTS} from "./queries.js"; 
+import  {GET_POSTS, SIGNIN_USER, GET_CURRENT_USER, SIGNUP_USER, ADD_POST, SEARCH_POSTS, GET_USER_POSTS, UPDATE_USER_POST} from "./queries.js"; 
 
 Vue.use(Vuex)
 
@@ -59,7 +59,7 @@ export default new Vuex.Store({
       .then(({data}) => {
         commit('setLoading', false);
         commit('setUser', data.getCurrentUser);
-        console.log(data.getCurrentUser);
+        //console.log(data.getCurrentUser);
       })
       .catch(err => {
         commit('setLoading', false);
@@ -96,10 +96,30 @@ export default new Vuex.Store({
       .then(({data}) => {
         // commit('setLoading', false);
         // commit('setUser', data.getCurrentUser);
-        console.log(data.addPost);
+        //console.log(data.addPost);
       })
       .catch(err => {
         // commit('setLoading', false);
+        console.error(err);
+      })
+    },
+    updateUserPost: ({commit, state}, payload) => {
+      apolloClient.mutate({
+        mutation: UPDATE_USER_POST,
+        variables: payload
+      })
+      .then(({data}) =>{
+        const index = state.userPosts.findIndex(post => post._id === data.updateUserPost._id);
+        const userPosts = [
+          ...state.userPosts.slice(0, index),
+          data.updateUserPost,
+          ...state.userPosts.slice(index + 1)
+        ];
+        commit("setUserPosts", userPosts);
+        //console.log("userPosts", state.userPosts);
+        //console.log("update User Post", data.updateUserPost);
+      })
+      .catch(err => {
         console.error(err);
       })
     },
@@ -114,7 +134,7 @@ export default new Vuex.Store({
           // commit passes data from actions to mutation function
           commit('setPosts', data.getPosts);
           commit('setLoading', false);
-          console.log(data.getPosts);
+          //console.log(data.getPosts);
 
         }).catch(err => {
           commit('setLoading', false);
@@ -136,7 +156,7 @@ export default new Vuex.Store({
         query: SEARCH_POSTS,
         variables: payload
       }).then(({data}) => {
-        console.log(data);
+        //console.log(data);
         commit('setSearchResults', data.searchPosts);
       }).catch(err => {console.error(err)});
     },
