@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 // import typedefa and resolvers
-const filePath = path.join(path.dirname(), 'typeDefs.gql');
+const filePath = path.join(__dirname, 'typeDefs.gql');
 const typeDefs = fs.readFileSync(filePath, 'utf-8');
 const resolvers = require("./resolvers");
 const jwt = require("jsonwebtoken");
