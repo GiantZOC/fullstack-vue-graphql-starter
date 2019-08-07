@@ -121,6 +121,13 @@ mutation($postId: ID!, $userId: ID!, $title: String!, $imageUrl: String!, $categ
   }
 }
 `
+export const DELETE_USER_POST = gql`
+mutation($postId: ID!){
+  deleteUserPost(postId: $postId){
+    _id
+  }
+}
+`;
 
 export const SEARCH_POSTS = gql`
 query($searchTerm: String){
