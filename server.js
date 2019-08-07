@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 
 // import typedefa and resolvers
-const filePath = path.join(__dirname, 'typeDefs.gql');
+const filePath = path.join(path.dirname(), 'typeDefs.gql');
 const typeDefs = fs.readFileSync(filePath, 'utf-8');
 const resolvers = require("./resolvers");
 const jwt = require("jsonwebtoken");
@@ -49,6 +49,6 @@ const server = new ApolloServer({
 });
 
 //initialize server
-server.listen().then(({ url }) => {
+server.listen({port: process.env.PORT || 4000}).then(({ url }) => {
     console.log(`Server listening on ${url}`);
 });
