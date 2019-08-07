@@ -80,29 +80,6 @@ export const GET_POST = gql`
   }
 `;
 
-// export const GET_POST = gql`
-// query($postId: ID!){
-//   getPost(postId: $postId){
-//     _id
-//     title
-//     imageUrl
-//     categories
-//     description
-//     likes
-//     createdDate
-//     messages{
-//       _id
-//       messageBody
-//       messageDate
-//       messageUser{
-//         _id
-//         username
-//         avatar
-//       }
-//     }
-//   }
-// }`;
-// Post Mutations
 
 export const ADD_POST = gql`
 mutation(
@@ -126,26 +103,6 @@ mutation(
     createdDate
   }
 }`;
-// export const GET_USERS = gql`
-// query{
-//   getPosts{
-//     _id
-//     title
-//     imageUrl
-//   }
-// }
-// `;
-
-// User Queries
-// export const GET_USERS = gql`
-// query{
-//   getPosts{
-//     _id
-//     title
-//     imageUrl
-//   }
-// }
-// `;
 
 export const SEARCH_POSTS = gql`
 query($searchTerm: String){
@@ -191,6 +148,20 @@ export const SIGNUP_USER = gql`
 mutation($username: String!, $email:String!, $password:String!){
   signupUser(username: $username, email: $email, password:$password){
     token
+  }
+}
+`
+
+export const GET_USER_POSTS = gql`
+query($userId: ID!){
+  getUserPosts(userId: $userId){
+    _id
+    title
+    imageUrl
+    description
+    categories
+    createdDate
+    likes
   }
 }
 `
