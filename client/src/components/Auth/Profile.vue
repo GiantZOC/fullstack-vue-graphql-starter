@@ -17,7 +17,7 @@
 
                 <v-list-item-subtitle v-text="item.artist"></v-list-item-subtitle>-->
                 <div class="headling">{{user.username}}</div>
-                <div>Joined {{user.joinDate}}</div>
+                <div>Joined {{formatJoinDate(user.joinDate)}}</div>
                 <div class="hidden-xs-only font-weight-regular">{{user.favorites.length}} Favorites</div>
                 <div class="hidden-xs-only font-weight-regular">{{userPosts.length}} Posts Added</div>
               </v-list-item-content>
@@ -143,6 +143,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import moment from "moment";
 
 export default {
   name: "Profile",
@@ -177,6 +178,9 @@ export default {
     this.handleGetUserPosts();
   },
   methods:{
+    formatJoinDate(date){
+      return moment(new Date(date)).format('ll');
+    },
     handleGetUserPosts(){
       this.$store.dispatch('getUserPosts',{
         userId: this.user._id

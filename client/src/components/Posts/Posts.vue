@@ -37,7 +37,7 @@
 
                                     <v-list-item-content>
                                     <v-list-item-title>{{post.createdBy.username}}</v-list-item-title>
-                                    <v-list-item-subtitle class="font-weight-thin">Added {{post.createdDate}}</v-list-item-subtitle>
+                                    <v-list-item-subtitle class="font-weight-thin">Added {{formatCreatedDate(post.createdDate)}}</v-list-item-subtitle>
                                     </v-list-item-content>
 
                                     <v-list-item-action>
@@ -63,20 +63,11 @@
             </v-flex>
         </v-layout>
     </v-container>
-    <!-- <v-container text-xs-center v-if="infiniteScrollPosts">
-
-        <h1>Posts</h1>
-        <div v-for="post in infiniteScrollPosts.posts" :key="post._id">
-            <img :src="post.imageUrl" height="100px">
-            <h3>{{post.title}}</h3>
-
-        </div>
-        <v-btn @click="showMorePosts" v-if="showMoreEnabled">Fetch More</v-btn>
-    </v-container> -->
 </template>
 
 <script>
 import { INFINITE_SCROLL_POSTS} from '../../queries';
+import moment from "moment"
 const pageSize = 2;
 
 export default {
@@ -98,6 +89,9 @@ export default {
         }
     },
     methods:{
+        formatCreatedDate(date){
+            return moment(new Date(date)).format('ll');
+        },
         showMorePosts(){
             this.pageNum +=1;
             //fetches more data and transform original result
