@@ -6,7 +6,7 @@
   "scripts": {
     "server": "nodemon server.js",
     "client": "cd client && npm run serve",
-    "build": "cd client && npm run build",
+    "build": "npm start",
     "dev": "concurrently --names \"server,client\" \"npm run server\" \"npm run client\""
   },
   "keywords": [],

@@ -1,0 +1,26 @@
+{
+    "name": "fullstack-vue-graphql-starter",
+    "version": 2,
+    "builds": [
+      {
+        "src": "dist/**",
+        "use": "@now/static"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/(js|css|img)/(.*)",
+        "dest": "/dist/$1/$2"
+      },
+      {
+        "src": "/favicon.ico",
+        "dest": "/dist/favicon.ico"
+      },
+      {
+        "src": "/(.*)",
+        "dest": "/dist"
+      }
+    ],
+    "alias": "vue-share-starter"
+  }
+ 
