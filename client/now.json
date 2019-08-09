@@ -1,5 +1,5 @@
 {
-    "name": "fullstack-vue-graphql-starter",
+    "name": "fullstack-vue-graphql-client",
     "version": 2,
     "builds": [
       {
@@ -21,6 +21,11 @@
         "dest": "/dist"
       }
     ],
-    "alias": "vue-share-starter"
+    "alias": "vue-share-client",
+    "build":{
+      "env": {
+        "VUE_APP_GRAPHQL_ENDPOINT": "@vueappgraphqlendpoint"
+      }
+    }
   }
  

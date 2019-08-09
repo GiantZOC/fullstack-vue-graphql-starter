@@ -14,11 +14,11 @@ require('dotenv').config();
 const User = require('./models/User');
 const Post = require('./models/Post');
 
-console.log(process.env.MONGO_URI)
+console.log(process.env.mongouri)
 
 //connect to MLab MongoDB
 mongoose
-.connect(process.env.MONGO_URI, {useNewUrlParser: true})
+.connect(process.env.mongouri, {useNewUrlParser: true})
 .then(() => console.log('DB connected'))
 .catch(err => console.error(err));
 
@@ -26,7 +26,7 @@ mongoose
 const getUser = async token =>{
     if(token){
         try {
-            return await jwt.verify(token, process.env.SECRET);
+            return await jwt.verify(token, process.env.secret);
             //console.log(user);
         } catch (error) {
             //throw new AuthenticationError('Your session has ended.  Please sign in again.');
@@ -49,6 +49,6 @@ const server = new ApolloServer({
 });
 
 //initialize server
-server.listen({port: process.env.PORT || 4000}).then(({ url }) => {
+server.listen({port: process.env.port || 4000}).then(({ url }) => {
     console.log(`Server listening on ${url}`);
 });

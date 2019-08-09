@@ -5,9 +5,7 @@
   "main": "server.js",
   "scripts": {
     "server": "nodemon server.js",
-    "client": "cd client && npm run serve",
-    "build": "npm start",
-    "dev": "concurrently --names \"server,client\" \"npm run server\" \"npm run client\""
+    "build": "npm start"
   },
   "keywords": [],
   "author": "Steven Clipson",
