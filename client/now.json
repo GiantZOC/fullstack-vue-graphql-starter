@@ -22,10 +22,8 @@
       }
     ],
     "alias": "vue-share-client",
-    "build":{
-      "env": {
-        "VUE_APP_GRAPHQL_ENDPOINT": "@vueappgraphqlendpoint"
-      }
+    "env": {
+      "VUE_APP_GRAPHQL_ENDPOINT": "@vueappgraphqlendpoint"
     }
   }
  
