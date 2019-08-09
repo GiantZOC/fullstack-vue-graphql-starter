@@ -20,7 +20,7 @@ console.log("GRAPHQL", process.env);
 
 // Setup ApolloClient
 export const defaultClient = new ApolloClient({
-  uri: process.env.VUE_APP_GRAPHQL_ENDPOINT,
+  uri: process.env.graphql,
   //include auth token with requests made to backend
   fetchOptions: {
     credentials: "include"

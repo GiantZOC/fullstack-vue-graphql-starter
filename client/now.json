@@ -22,8 +22,13 @@
       }
     ],
     "alias": "vue-share-client",
+    "build":{
+      "env": {
+        "graphql": "@graphql"
+      }
+    },
     "env": {
-      "VUE_APP_GRAPHQL_ENDPOINT": "@vueappgraphqlendpoint"
+      "graphql": "@graphql"
     }
   }
  
