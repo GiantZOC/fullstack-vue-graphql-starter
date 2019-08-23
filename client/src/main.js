@@ -9,18 +9,16 @@ import ApolloClient from "apollo-boost";
 import VueApollo from "vue-apollo";
 
 import FormAlert from "./components/Shared/FormAlert";
-// import environment variable and models
-//require('dotenv').config();
-//register global component
 
 Vue.component("form-alert", FormAlert);
 
 Vue.use(VueApollo);
-console.log("GRAPHQL", process.env);
+console.log("env", process.env);
+console.log("Graphql", process.env.VUE_APP_GRAPHQL_URI);
 
 // Setup ApolloClient
 export const defaultClient = new ApolloClient({
-  uri: process.env.graphql,
+  uri: "http://localhost:4000/graphql",
   //include auth token with requests made to backend
   fetchOptions: {
     credentials: "include"
