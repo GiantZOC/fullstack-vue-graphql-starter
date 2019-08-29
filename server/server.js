@@ -14,11 +14,11 @@ require('dotenv').config();
 const User = require('./models/User');
 const Post = require('./models/Post');
 
-console.log(process.env.mongouri)
+console.log(process.env.mongo_uri)
 
 //connect to MLab MongoDB
 mongoose
-.connect(process.env.mongouri, {useNewUrlParser: true})
+.connect(process.env.mongo_uri, {useNewUrlParser: true})
 .then(() => console.log('DB connected'))
 .catch(err => console.error(err));
 
