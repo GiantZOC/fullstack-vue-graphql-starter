@@ -5,7 +5,10 @@
   "main": "server.js",
   "scripts": {
     "server": "nodemon server.js",
-    "build": "npm start"
+    "build": "npm start",
+    "netlify-serve": "netlify-lambda serve lambda",
+    "netlify-build": "netlify-lambda build lambda",
+    "netlify-install": "netlify-lambda install lambda"
   },
   "keywords": [],
   "author": "Steven Clipson",
@@ -13,12 +16,14 @@
   "dependencies": {
     "apollo-boost": "^0.4.3",
     "apollo-server": "^2.0.0-rc.7",
-    "bcrypt": "^3.0.0",
+    "apollo-server-lambda": "^2.9.2",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^6.0.0",
     "graphql": "^0.13.2",
     "jsonwebtoken": "^8.3.0",
     "md5": "^2.2.1",
     "mongoose": "^5.6.7",
+    "netlify-lambda": "^1.6.3",
     "vue-apollo": "^3.0.0-rc.2"
   },
   "devDependencies": {

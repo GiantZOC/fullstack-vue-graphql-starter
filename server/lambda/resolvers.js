@@ -1,5 +1,6 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+require('dotenv').config();
 
 const createToken = (user, secret, expiresIn) => {
     const {username, email} = user;
@@ -19,6 +20,7 @@ module.exports = {
             return user;
         },
         getPosts: async(_, args, {Post}) => {
+            console.log(Post);
             const posts = await Post.find({}).sort({ createdDate: 'desc'}).populate(
                 {
                     path: 'createdBy',
@@ -175,7 +177,8 @@ module.exports = {
             if(!isValidPassword){
                 throw new Error('Invalid password');
             }
-            return { token: createToken(user, process.env.SECRET, '1hr')};
+            console.log(process.env.secret);
+            return { token: createToken(user, process.env.secret, '1hr')};
         },
         signupUser: async (_, {username, email, password}, {User}) => {
             const user = await User.findOne({ username: username})
@@ -188,7 +191,7 @@ module.exports = {
                 email,
                 password
             }).save();
-            return { token: createToken(newUser, process.env.SECRET, '1hr')};
+            return { token: createToken(newUser, process.env.secret, '1hr')};
         }        
     }
 }
